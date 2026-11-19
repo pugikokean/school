@@ -1,0 +1,65 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+
+        String[] elements = ("H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og").split(" ");
+
+        String[] e1 = {"Na", "H", "C", "Fe", "Li", "K", "Mg", "Ca", "Al", "Zn", "Ag", "Ba"};
+        String[] e2 = {"Cl", "O", "O", "S", "F", "Br", "O", "O", "O", "S", "Cl", "O"};
+        String[] compounds = {"NaCl", "H2O", "CO2", "FeS", "LiF", "KBr", "MgO", "CaO", "Al2O3", "ZnS", "AgCl", "BaO"};
+
+        boolean running = true;
+
+        while (running) {
+
+            String element1, element2;
+            boolean valid;
+
+            do {
+                System.out.print("Enter first element: ");
+                element1 = input.nextLine().trim();
+                element1 = element1.isEmpty() ? "" : element1.substring(0, 1).toUpperCase() + element1.substring(1).toLowerCase();
+
+                valid = false;
+                for (String e : elements)
+                    if (element1.equals(e)) valid = true;
+
+                if (!valid) System.out.println("Invalid Element 1.");
+            } while (!valid);
+
+            do {
+                System.out.print("Enter second element: ");
+                element2 = input.nextLine().trim();
+                element2 = element2.isEmpty() ? "" : element2.substring(0, 1).toUpperCase() + element2.substring(1).toLowerCase();
+
+                valid = false;
+                for (String e : elements)
+                    if (element2.equals(e)) valid = true;
+
+                if (!valid) System.out.println("Invalid Element 2.");
+            } while (!valid);
+
+            boolean found = false;
+
+            for (int i = 0; i < e1.length; i++) {
+                if ((element1.equals(e1[i]) && element2.equals(e2[i])) ||
+                    (element1.equals(e2[i]) && element2.equals(e1[i]))) {
+                    System.out.println("Resulting Compound: " + compounds[i]);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) System.out.println("Invalid Reaction.");
+
+            System.out.print("Another check? (Y/N): ");
+            if (input.nextLine().equalsIgnoreCase("N")) running = false;
+        }
+
+        System.out.println("Exiting Application. Program Ends.");
+        input.close();
+    }
+}
