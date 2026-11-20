@@ -1,0 +1,64 @@
+START
+
+// Step 1: Initialize predefined elements and reaction data
+INITIALIZE element list
+INITIALIZE first element array
+INITIALIZE second element array
+INITIALIZE compound array
+
+// Step 2: Set the program to run
+SET running = TRUE
+
+WHILE running = TRUE
+
+    // Step 3: Ask for the first element
+    INPUT first element
+
+    WHILE first element is invalid
+        DISPLAY "Invalid Element 1"
+        INPUT first element
+    END WHILE
+
+    // Step 4: Ask for the second element
+    INPUT second element
+
+    WHILE second element is invalid
+        DISPLAY "Invalid Element 2"
+        INPUT second element
+    END WHILE
+
+    // Step 5: Initialize reaction checking
+    SET found = FALSE
+
+    // Step 6: Search for a matching reaction
+    FOR each reaction in the arrays
+
+        IF first and second elements match
+           a known reaction
+
+            DISPLAY resulting compound
+            SET found = TRUE
+            STOP searching
+
+        END IF
+
+    END FOR
+
+    // Step 7: Check if a reaction was found
+    IF found = FALSE
+        DISPLAY "Invalid Reaction"
+    END IF
+
+    // Step 8: Ask the user to repeat
+    INPUT "Another check? (Y/N)"
+
+    IF answer = "N"
+        SET running = FALSE
+    END IF
+
+END WHILE
+
+// Step 9: End the program
+DISPLAY "Exiting Application. Program Ends."
+
+END
