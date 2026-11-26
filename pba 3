@@ -1,0 +1,308 @@
+
+import java.util.Scanner;
+
+public class JavaElementCombiner {
+
+    private static final Element[] ELEMENTS = new Element[118];
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        initializeElements();
+
+        System.out.println("╔══════════════════════════════════════════╗");
+        System.out.println("║                                          ║");
+        System.out.println("║       CHEMICAL ELEMENT COMBINER          ║");
+        System.out.println("║              VERSION 2.0                 ║");
+        System.out.println("║                                          ║");
+        System.out.println("║        DISCOVER CHEMICAL REACTIONS       ║");
+        System.out.println("║                                          ║");
+        System.out.println("╚══════════════════════════════════════════╝");
+
+        System.out.println("\n          [ 118 ELEMENT DATABASE ]");
+        System.out.println("          [ REACTION PREDICTOR ]\n");
+
+        Element e1 = getElementInput(scanner, 1);
+        Element e2 = getElementInput(scanner, 2);
+
+        String result = predictReaction(e1, e2);
+
+        displayResults(e1, e2, result);
+
+        scanner.close();
+    }
+
+    private static void initializeElements() {
+
+        String[] data = {
+            "H Hydrogen", "He Helium",
+            "Li Lithium", "Be Beryllium",
+            "B Boron", "C Carbon",
+            "N Nitrogen", "O Oxygen",
+            "F Fluorine", "Ne Neon",
+            "Na Sodium", "Mg Magnesium",
+            "Al Aluminum", "Si Silicon",
+            "P Phosphorus", "S Sulfur",
+            "Cl Chlorine", "Ar Argon",
+            "K Potassium", "Ca Calcium",
+            "Sc Scandium", "Ti Titanium",
+            "V Vanadium", "Cr Chromium",
+            "Mn Manganese", "Fe Iron",
+            "Co Cobalt", "Ni Nickel",
+            "Cu Copper", "Zn Zinc",
+            "Ga Gallium", "Ge Germanium",
+            "As Arsenic", "Se Selenium",
+            "Br Bromine", "Kr Krypton",
+            "Rb Rubidium", "Sr Strontium",
+            "Y Yttrium", "Zr Zirconium",
+            "Nb Niobium", "Mo Molybdenum",
+            "Tc Technetium", "Ru Ruthenium",
+            "Rh Rhodium", "Pd Palladium",
+            "Ag Silver", "Cd Cadmium",
+            "In Indium", "Sn Tin",
+            "Sb Antimony", "Te Tellurium",
+            "I Iodine", "Xe Xenon",
+            "Cs Cesium", "Ba Barium",
+            "La Lanthanum", "Ce Cerium",
+            "Pr Praseodymium", "Nd Neodymium",
+            "Pm Promethium", "Sm Samarium",
+            "Eu Europium", "Gd Gadolinium",
+            "Tb Terbium", "Dy Dysprosium",
+            "Ho Holmium", "Er Erbium",
+            "Tm Thulium", "Yb Ytterbium",
+            "Lu Lutetium", "Hf Hafnium",
+            "Ta Tantalum", "W Tungsten",
+            "Re Rhenium", "Os Osmium",
+            "Ir Iridium", "Pt Platinum",
+            "Au Gold", "Hg Mercury",
+            "Tl Thallium", "Pb Lead",
+            "Bi Bismuth", "Po Polonium",
+            "At Astatine", "Rn Radon",
+            "Fr Francium", "Ra Radium",
+            "Ac Actinium", "Th Thorium",
+            "Pa Protactinium", "U Uranium",
+            "Np Neptunium", "Pu Plutonium",
+            "Am Americium", "Cm Curium",
+            "Bk Berkelium", "Cf Californium",
+            "Es Einsteinium", "Fm Fermium",
+            "Md Mendelevium", "No Nobelium",
+            "Lr Lawrencium", "Rf Rutherfordium",
+            "Db Dubnium", "Sg Seaborgium",
+            "Bh Bohrium", "Hs Hassium",
+            "Mt Meitnerium", "Ds Darmstadtium",
+            "Rg Roentgenium", "Cn Copernicium",
+            "Nh Nihonium", "Fl Flerovium",
+            "Mc Moscovium", "Lv Livermorium",
+            "Ts Tennessine", "Og Oganesson"
+        };
+
+        for (int i = 0; i < data.length; i++) {
+            String[] parts = data[i].split(" ");
+
+            ELEMENTS[i] = new Element(
+                parts[1], parts[0], i + 1,
+                getType(parts[0])
+            );
+        }
+    }
+
+    private static String getType(String symbol) {
+
+        String noble = "He Ne Ar Kr Xe Rn Og";
+        String nonmetal = "H C N O P S Se";
+        String halogen = "F Cl Br I At Ts";
+        String metalloid = "B Si Ge As Sb Te Po";
+
+        if ((" " + noble + " ").contains(" " + symbol + " ")) {
+            return "Noble Gas";
+        }
+
+        if ((" " + nonmetal + " ").contains(" " + symbol + " ")
+            || (" " + halogen + " ").contains(" " + symbol + " ")) {
+            return "Nonmetal";
+        }
+
+        if ((" " + metalloid + " ").contains(" " + symbol + " ")) {
+            return "Metalloid";
+        }
+
+        return "Metal";
+    }
+
+    private static Element getElementInput(
+        Scanner scanner, int number) {
+
+        while (true) {
+
+            System.out.print(
+                "Enter Element " + number + " Symbol: "
+            );
+
+            String input = scanner.nextLine().trim();
+
+            for (Element e : ELEMENTS) {
+
+                if (e.getSymbol().equalsIgnoreCase(input)) {
+
+                    System.out.println(
+                        "✓ Valid Element: " + e.getName() + "\n"
+                    );
+
+                    return e;
+                }
+            }
+
+            System.out.println(
+                "✗ Invalid Element! Please try again.\n"
+            );
+        }
+    }
+
+    private static String predictReaction(Element e1, Element e2) {
+
+        String s1 = e1.getSymbol();
+        String s2 = e2.getSymbol();
+
+        if (s1.equals(s2)) {
+            return "No Reaction";
+        }
+
+        String pair = s1 + s2;
+
+        switch (pair) {
+
+            case "NaCl":
+            case "ClNa":
+                return "Sodium Chloride (NaCl)";
+
+            case "HO":
+            case "OH":
+                return "Water (H2O)";
+
+            case "CO":
+            case "OC":
+                return "Carbon Dioxide (CO2)";
+
+            case "MgO":
+            case "OMg":
+                return "Magnesium Oxide (MgO)";
+
+            case "FeS":
+            case "SFe":
+                return "Iron Sulfide (FeS)";
+
+            case "NaO":
+            case "ONa":
+                return "Sodium Oxide (Na2O)";
+
+            case "CaCl":
+            case "ClCa":
+                return "Calcium Chloride (CaCl2)";
+
+            case "HCl":
+            case "ClH":
+                return "Hydrogen Chloride (HCl)";
+
+            case "NH":
+            case "HN":
+                return "Ammonia (NH3)";
+
+            case "KO":
+            case "OK":
+                return "Potassium Oxide (K2O)";
+
+            case "CuO":
+            case "OCu":
+                return "Copper Oxide (CuO)";
+
+            case "ZnO":
+            case "OZn":
+                return "Zinc Oxide (ZnO)";
+
+            case "LiF":
+            case "FLi":
+                return "Lithium Fluoride (LiF)";
+
+            case "KCl":
+            case "ClK":
+                return "Potassium Chloride (KCl)";
+
+            default:
+                return "No Reaction";
+        }
+    }
+
+    private static void displayResults(
+        Element e1, Element e2, String result) {
+
+        System.out.println("\n");
+        System.out.println("╔══════════════════════════════════════════╗");
+        System.out.println("║              REACTION REPORT             ║");
+        System.out.println("╠══════════════════════════════════════════╣");
+
+        System.out.printf(
+            "║ ELEMENT 1: %-29s ║%n",
+            e1.getName() + " (" + e1.getSymbol() + ")"
+        );
+
+        System.out.printf(
+            "║ TYPE: %-35s ║%n",
+            e1.getType()
+        );
+
+        System.out.println("╟──────────────────────────────────────────╢");
+
+        System.out.printf(
+            "║ ELEMENT 2: %-29s ║%n",
+            e2.getName() + " (" + e2.getSymbol() + ")"
+        );
+
+        System.out.printf(
+            "║ TYPE: %-35s ║%n",
+            e2.getType()
+        );
+
+        System.out.println("╠══════════════════════════════════════════╣");
+        System.out.println("║              COMBINATION                 ║");
+        System.out.println("╟──────────────────────────────────────────╢");
+
+        System.out.printf(
+            "║ %-40s ║%n",
+            result
+        );
+      
+}
+
+class Element {
+
+    private String name;
+    private String symbol;
+    private int atomicNumber;
+    private String type;
+
+    public Element(String name, String symbol,
+                   int atomicNumber, String type) {
+
+        this.name = name;
+        this.symbol = symbol;
+        this.atomicNumber = atomicNumber;
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public int getAtomicNumber() {
+        return atomicNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+}
